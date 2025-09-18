@@ -36,7 +36,7 @@ export default function Header() {
           <div className="flex items-center">
             {/* Potentially add about and contact links tied to zoho SMPT */}
             <a
-              className="text-black text-xl font-light hover:scale-105 hover:text-[#6EA215] transition duration-300"
+              className="text-black text-lg font-light hover:scale-105 hover:text-[#6EA215] transition duration-300"
               href="https://tally.so/r/w22QYp"
             >
               Join the Mission
