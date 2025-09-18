@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 w-full bg-white/80 backdrop-blur-sm z-50 transition-colors duration-200 ${
-        scrolled ? "border-b border-gray-100" : "border-b-0"
+        scrolled ? "border-b border-gray-100" : "border-b-0 border-gray-100 "
       }`}
     >
       <nav className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
