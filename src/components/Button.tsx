@@ -12,11 +12,11 @@ const Button = ({ href, children, className = "" }: ButtonProps) => {
   // Base classes for all buttons. We'll add any custom classes to this.
   const baseClasses = `
     inline-block
-    mt-5 
     m-auto 
-    text-[24px] 
-    px-16 py-6
-    text-lg font-semibold text-white
+    px-10 sm:px-16 md:px-16 lg:px-16 xl:px-16 
+    py-3 sm:py-6 md:py-6 lg:py-6 xl:py-6
+    text-lg sm:text-2xl md:text-2xl lg:text-2xl xl:text-2xl
+    font-semibold text-white
     bg-black
     rounded-full
     shadow-sm
