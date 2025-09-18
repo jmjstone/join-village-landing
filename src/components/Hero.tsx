@@ -13,12 +13,12 @@ const Hero = () => {
       />
       <div className="flex flex-1 m-auto text-center flex-col animate-fade-in-up animation-delay-400">
         <div className="flex flex-col gap-10">
-          <div className="pt-5 text-5xl text-black max-w-300 font-bold animate-fade-in-up animation-delay-600">
+          <div className="pt-7 text-5xl text-black max-w-300 font-bold animate-fade-in-up animation-delay-600">
             Find community. Build your brand. Get paid.
           </div>
         </div>
         <Button
-          className="mt-15 animate-fade-in-up animation-delay-1000"
+          className="mt-13 animate-fade-in-up animation-delay-1000"
           href="https://tally.so/r/w22QYp"
         >
           Join the Mission
