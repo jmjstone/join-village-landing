@@ -5,7 +5,7 @@ const Hero = () => {
   return (
     <div className="pt-1 sm:pt-5 md:pt-5 lg:pt-5 xl:pt-5 flex flex-col justify-items-center justify-around m-auto">
       <Image
-        className="flex w-60 sm:w-auto md:w-auto lg:w-auto xl:w-auto flex-1 hover:scale-102 transition duration-400 m-auto animate-fade-in-up animation-delay-200"
+        className="flex w-60 sm:w-[300px] md:w-[300px] lg:w-[300px] xl:w-[300px]  flex-1 hover:scale-102 transition duration-400 m-auto animate-fade-in-up animation-delay-200"
         src="/VillageMockupHomeCropped.png"
         alt="Village Main Page"
         height={1000}
