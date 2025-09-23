@@ -1,28 +1,81 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import Button from "@/components/Button"; // Assuming your Button component is in the same folder
+import Button from "@/components/Button";
 import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [showWaitlistForm, setShowWaitlistForm] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
+    null
+  );
+
+  // Remove the Supabase client initialization since we're importing it
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 0);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleWaitlistClick = () => {
+    setShowWaitlistForm(!showWaitlistForm);
+    // Reset form state when toggling
+    if (!showWaitlistForm) {
+      setEmail("");
+      setSubmitStatus(null);
+    }
+  };
+
+  const handleEmailSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!email || !email.includes("@")) {
+      setSubmitStatus("error");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const { data, error } = await supabase
+        .from("waitlist") // Make sure this table exists in your Supabase
+        .insert([
+          {
+            email: email,
+            created_at: new Date().toISOString(),
+          },
+        ]);
+
+      if (error) {
+        console.error("Error inserting email:", error);
+        setSubmitStatus("error");
+      } else {
+        setSubmitStatus("success");
+        setEmail("");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 w-full bg-white/80 backdrop-blur-sm z-50 transition-colors duration-200 ${
-        scrolled ? "border-b border-gray-100" : "border-b-0 border-gray-100 "
+        scrolled ? "border-b border-gray-100" : "border-b-0 border-gray-100"
       }`}
     >
-      <nav className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="max-w-8xl mx-auto px-4 text-center sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex-shrink-0">
             <Image
@@ -32,20 +85,81 @@ export default function Header() {
               height={40}
             />
           </Link>
-
           <div className="flex items-center">
-            {/* Potentially add about and contact links tied to zoho SMPT */}
-            <a
+            <button
+              onClick={handleWaitlistClick}
               className="text-black text-lg font-light hover:scale-105 hover:text-[#6EA215] transition duration-300"
-              href="https://tally.so/r/w22QYp"
             >
-              Join the Mission
-            </a>
+              Join the Waitlist
+            </button>
+          </div>
+        </div>
+
+        {/* Expandable Waitlist Form */}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            showWaitlistForm ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="pb-6 pt-2">
+            <div className="max-w-md mx-auto bg-white/90 backdrop-blur-sm rounded-[36px] p-6 shadow-lg">
+              <h3 className="text-xl text-gray-900 mb-4">Join the mission.</h3>
+
+              <form onSubmit={handleEmailSubmit} className="space-y-4">
+                <div>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setEmail(e.target.value)
+                    }
+                    placeholder="Enter your email address"
+                    className="w-full px-5 py-2.5 border text-black border-gray-300 rounded-full shadow-sm placeholder-neutral-300 focus:outline-none focus:ring-[#6EA215] focus:border-[#6EA215]"
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !email}
+                  className="w-full bg-[#6EA215] text-white py-2.5 px-4 rounded-full hover:bg-[#5a8511] focus:outline-none focus:ring-2 focus:ring-[#6EA215] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition duration-300"
+                >
+                  {isSubmitting ? "Submitting..." : "Submit"}
+                </button>
+              </form>
+
+              {/* Status Messages */}
+              {submitStatus === "success" && (
+                <p className="mt-3 text-sm text-[#6EA215]">
+                  Welcome to the Village, stay tuned!
+                </p>
+              )}
+
+              {submitStatus === "error" && (
+                <p className="mt-3 text-sm text-red-600">
+                  Something went wrong. Please try again.
+                </p>
+              )}
+
+              {/* Survey Button - shows after successful submission or always */}
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <p className="text-md  text-black mb-2">
+                  Help shape the future. Take our survey:
+                </p>
+                <a
+                  href="https://tally.so/r/w22QYp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block w-full text-center bg-white border border-[#6EA215] text-[#6EA215] py-2 px-4 rounded-full hover:bg-[#6EA215] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6EA215] focus:ring-offset-2 transition duration-300"
+                >
+                  Take Survey
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
     </header>
   );
 }
-
-// The 'export default' line makes this component available to be imported in other files.
