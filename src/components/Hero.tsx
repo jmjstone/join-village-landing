@@ -100,7 +100,7 @@ const Hero = () => {
                     setEmail(e.target.value)
                   }
                   placeholder="Enter your student email"
-                  className="px-5 sm:px-6 md:px-6 lg:px-6 xl:px-6 py-3 sm:py-4 md:py-4 lg:py-4 xl:py-4 border-1 border-black rounded-full text-center font-normal text-neutral-600 focus:outline-none focus:border-[#6EA215] transition duration-300 text-lg"
+                  className="w-[360px] sm:w-sm md:w-sm lg:w-sm xl:w-sm px-6 py-3 sm:py-3 md:py-3 lg:py-3 xl:py-3 border-1 border-black rounded-full text-center font-normal text-neutral-600 focus:outline-none focus:border-[#6EA215] transition duration-300 text-md"
                   required
                   disabled={isSubmitting}
                 />
@@ -109,16 +109,16 @@ const Hero = () => {
               <button
                 type="submit"
                 disabled={isSubmitting || !email}
-                className="inline-block m-auto px-8 sm:px-12 md:px-12 lg:px-12 xl:px-12 py-2 sm:py-2 md:py-2 lg:py-2 xl:py-2 text-base sm:text-lg md:text-lg lg:text-lg xl:text-lg font-medium text-white bg-[#6ea215] rounded-full shadow-sm transform transition duration-300 hover:bg-[#6ea215] hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6EA215] disabled:bg-black disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-black"
+                className="inline-block m-auto px-8 sm:px-8 md:px-8 lg:px-8 xl:px-8 py-2.5 sm:py-2.5 md:py-2.5 lg:py-2.5 xl:py-2.5 text-base sm:text-lg md:text-lg lg:text-lg xl:text-lg font-medium text-white bg-[#6ea215] rounded-full shadow-sm transform transition duration-300 hover:bg-[#6ea215] hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6EA215] disabled:bg-black disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-black"
               >
-                {isSubmitting ? "Submitting..." : "Submit"}
+                {isSubmitting ? "Joining..." : "Join"}
               </button>
             </form>
 
             {/* Status Messages */}
             {submitStatus === "success" && (
               <p className="text-center text-[#6EA215] font-semibold">
-                Welcome to the Village. Stay tuned.
+                Welcome to the Village — stay tuned!
               </p>
             )}
 
@@ -139,7 +139,7 @@ const Hero = () => {
                 rel="noopener noreferrer"
                 className="inline-block m-auto px-6 sm:px-10 md:px-10 lg:px-10 xl:px-10 py-2 sm:py-3 md:py-3 lg:py-3 xl:py-3 text-base sm:text-lg md:text-lg lg:text-lg xl:text-lg font-medium text-black bg-white border-1 border-black rounded-full shadow-sm transform transition duration-300 hover:bg-black hover:text-white hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6EA215]"
               >
-                Take Our Survey
+                Take Survey
               </a>
             </div>
           </div>

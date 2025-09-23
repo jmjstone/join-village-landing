@@ -14,8 +14,6 @@ export default function Header() {
     null
   );
 
-  // Remove the Supabase client initialization since we're importing it
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 0);
@@ -45,14 +43,12 @@ export default function Header() {
     setSubmitStatus(null);
 
     try {
-      const { data, error } = await supabase
-        .from("waitlist") // Make sure this table exists in your Supabase
-        .insert([
-          {
-            email: email,
-            created_at: new Date().toISOString(),
-          },
-        ]);
+      const { data, error } = await supabase.from("waitlist").insert([
+        {
+          email: email,
+          created_at: new Date().toISOString(),
+        },
+      ]);
 
       if (error) {
         console.error("Error inserting email:", error);
@@ -95,67 +91,65 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Expandable Waitlist Form */}
+        {/* Expandable Waitlist Form - Hero Style */}
         <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            showWaitlistForm ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          className={`transition-all duration-500 ease-in-out ${
+            showWaitlistForm
+              ? "opacity-100 max-h-96 pb-6"
+              : "opacity-0 max-h-0 pb-0 pointer-events-none"
           }`}
         >
-          <div className="pb-6 pt-2">
-            <div className="max-w-md mx-auto bg-white/90 backdrop-blur-sm rounded-[36px] p-6 shadow-lg">
-              <h3 className="text-xl text-gray-900 mb-4">Join the mission.</h3>
-
-              <form onSubmit={handleEmailSubmit} className="space-y-4">
-                <div>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setEmail(e.target.value)
-                    }
-                    placeholder="Enter your email address"
-                    className="w-full px-5 py-2.5 border text-black border-gray-300 rounded-full shadow-sm placeholder-neutral-300 focus:outline-none focus:ring-[#6EA215] focus:border-[#6EA215]"
-                    required
-                    disabled={isSubmitting}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !email}
-                  className="w-full bg-[#6EA215] text-white py-2.5 px-4 rounded-full hover:bg-[#5a8511] focus:outline-none focus:ring-2 focus:ring-[#6EA215] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition duration-300"
-                >
-                  {isSubmitting ? "Submitting..." : "Submit"}
-                </button>
-              </form>
-
-              {/* Status Messages */}
-              {submitStatus === "success" && (
-                <p className="mt-3 text-sm text-[#6EA215]">
-                  Welcome to the Village, stay tuned!
-                </p>
-              )}
-
-              {submitStatus === "error" && (
-                <p className="mt-3 text-sm text-red-600">
-                  Something went wrong. Please try again.
-                </p>
-              )}
-
-              {/* Survey Button - shows after successful submission or always */}
-              <div className="mt-4 pt-4 border-t border-gray-200">
-                <p className="text-md  text-black mb-2">
-                  Help shape the future. Take our survey:
-                </p>
-                <a
-                  href="https://tally.so/r/w22QYp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block w-full text-center bg-white border border-[#6EA215] text-[#6EA215] py-2 px-4 rounded-full hover:bg-[#6EA215] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6EA215] focus:ring-offset-2 transition duration-300"
-                >
-                  Take Survey
-                </a>
+          <div className="max-w-sm mx-auto space-y-4 pt-2">
+            <form onSubmit={handleEmailSubmit} className="space-y-4">
+              <div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setEmail(e.target.value)
+                  }
+                  placeholder="Enter your student email"
+                  className="w-full px-6 py-3 border-1 text-neutral-600 border-black rounded-full text-center focus:outline-none focus:border-[#6EA215] transition duration-300 text-base"
+                  required
+                  disabled={isSubmitting}
+                />
               </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting || !email}
+                className="inline-block m-auto px-8 py-2.5 text-base font-medium text-white bg-black rounded-full shadow-sm transform transition duration-300 hover:bg-[#6ea215] hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6EA215] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-black"
+              >
+                {isSubmitting ? "Joining..." : "Join"}
+              </button>
+            </form>
+
+            {/* Status Messages */}
+            {submitStatus === "success" && (
+              <p className="text-center text-[#6EA215] font-semibold">
+                Welcome to the Village — stay tuned!
+              </p>
+            )}
+
+            {submitStatus === "error" && (
+              <p className="text-center text-red-600">
+                Something went wrong. Please try again.
+              </p>
+            )}
+
+            {/* Survey Button */}
+            <div className="pt-2">
+              <p className="text-center text-gray-600 mb-3 text-sm">
+                Help shape the future:
+              </p>
+              <a
+                href="https://tally.so/r/w22QYp"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block m-auto px-6 py-2.5 text-base font-medium text-black bg-white border-1 border-black rounded-full shadow-sm transform transition duration-300 hover:bg-black hover:text-white hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6EA215]"
+              >
+                Take Survey
+              </a>
             </div>
           </div>
         </div>
